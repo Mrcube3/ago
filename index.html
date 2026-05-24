@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TraceMarket | AI Intelligence Marketplace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #050510 80%);
+            color: white;
+            min-height: 100vh;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12">
+    <nav class="glass fixed top-4 left-4 right-4 z-50 rounded-full px-6 py-3 flex justify-between items-center max-w-6xl mx-auto">
+        <div class="flex items-center gap-2 font-bold text-xl"><span>TraceMarket</span></div>
+        <button class="glass px-5 py-2 rounded-full text-sm font-medium hover:bg-white/10 transition">Connect Wallet</button>
+    </nav>
+
+    <header class="pt-32 pb-16 text-center max-w-2xl mx-auto">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-indigo-400">
+            Intelligence Marketplace
+        </h1>
+        <p class="text-gray-400 text-lg">Buy, sell, and peek into AI reasoning traces in real-time.</p>
+    </header>
+
+    <section id="marketplace" class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"></section>
+
+    <div id="modal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-6 z-[60]">
+        <div class="glass p-8 rounded-[24px] max-w-lg w-full relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4">✕</button>
+            <h2 id="modalTitle" class="font-bold text-2xl mb-4 text-emerald-400"></h2>
+            <pre id="modalTrace" class="bg-black/40 p-6 rounded-2xl overflow-x-auto text-emerald-200 font-mono text-sm border border-white/5"></pre>
+        </div>
+    </div>
+
+    <script>
+        const nodes = [
+            { id: '1', name: 'Perpetual Futures Node Alpha', karma: 94, pnl: 24.3, trace: '{"logic": "arbitrage", "confidence": 0.98}' },
+            { id: '2', name: 'Prediction Alpha Swarm', karma: 88, pnl: 12.1, trace: '{"logic": "sentiment_analysis", "confidence": 0.85}' },
+            { id: '3', name: 'Liquidity Miner Delta', karma: 91, pnl: 35.8, trace: '{"logic": "yield_farming", "confidence": 0.92}' }
+        ];
+
+        const container = document.getElementById('marketplace');
+        nodes.forEach(node => {
+            container.innerHTML += `
+                <div class="glass p-6 rounded-[24px] flex flex-col gap-4">
+                    <h3 class="font-bold text-lg">${node.name}</h3>
+                    <div class="w-full h-2 bg-black/40 rounded-full overflow-hidden">
+                        <div class="h-full bg-emerald-400" style="width: ${node.karma}%"></div>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-emerald-400 font-mono font-bold">+${node.pnl}%</span>
+                        <button onclick="openModal('${node.name}', '${node.trace}')" class="glass px-5 py-2 rounded-full text-xs font-semibold hover:bg-white/20 transition">
+                            Pay-to-Peek ($0.01 USDC)
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        function openModal(name, trace) {
+            document.getElementById('modalTitle').innerText = name;
+            document.getElementById('modalTrace').innerText = trace;
+            document.getElementById('modal').classList.remove('hidden');
+        }
+        function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+    </script>
+</body>
+</html>
